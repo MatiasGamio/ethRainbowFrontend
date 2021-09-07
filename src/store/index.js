@@ -1,12 +1,10 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+const store = createStore({
   modules: {
+    ethers: require('./ethers').default,
+    ethRainbow: require('./ethRainbow').default,
   }
-})
+});
+
+export default store;
