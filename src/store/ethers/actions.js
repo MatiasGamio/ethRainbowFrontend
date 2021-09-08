@@ -32,7 +32,11 @@ export function ready() {
 async function startProviderWatcher(context) {
 
   console.log("startProviderWatcher()");
+
   async function updateProvider(context) {
+
+    console.log("updateProvider()");
+
     try {
       ethereum = getEthereum();
       if (!ethereum) return;
@@ -54,6 +58,8 @@ async function startProviderWatcher(context) {
 
   function checkProvider(context) {
     console.log("checkProvider()");
+    console.log("ethereum", ethereum);
+    console.log("ethereumOk()", ethereumOk());
     if (ethereum && !ethereumOk()) {
       logout(context);
     } else if (!ethereum && ethereumOk()) {
