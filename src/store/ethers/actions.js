@@ -13,7 +13,9 @@ let wallet;
 let currentAccount;
 let providerInterval;
 
-function getEthereum() { return window.ethereum; }
+function getEthereum() {
+  return window.ethereum;
+}
 
 function ethereumOk() {
   const em = getEthereum();
@@ -36,26 +38,22 @@ async function startProviderWatcher(context) {
   async function updateProvider(context) {
     console.log("updateProvider()");
 
-//    try {
       ethereum = getEthereum();
       if (!ethereum) return;
 
       provider = new providers.Web3Provider(ethereum);
       context.commit("provider", provider);
-
       console.log("provider", provider);
 
       chainId = ethereum.chainId;
-      ethereum.on('chainChanged', handleChainChanged);
-
       console.log("chainId", chainId);
 
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
+      console.log("accounts", accounts);
       handleAccountsChanged(context);
+
+      ethereum.on('chainChanged', () => handleChainChanged(context));
       ethereum.on('accountsChanged', () => handleAccountsChanged(context));
-
-//    } catch (err) {
-
-//    }
   }
 
   function checkProvider(context) {
@@ -79,13 +77,11 @@ function handleChainChanged(_chainId) {
   window.location.reload();
 }
 
-async function handleAccountsChanged(context, accounts) {
-
+async function handleAccountsChanged(context) {
   console.log(`handleAccountsChanged()`);
 
-  if (!accounts) {
-    console.log(`handleAccountsChanged()`);
-
+  let accounts = [];
+  if (ethereum) {
     accounts = await ethereum.request({ method: 'eth_accounts' });
   }
 
@@ -106,9 +102,10 @@ async function handleAccountsChanged(context, accounts) {
 async function connect(context) {
   console.log("connect()");
   try {
+    await window.ethereum.enable();
     if (!ethereum) { return logout(context); }
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    await handleAccountsChanged(context, accounts);
+    await handleAccountsChanged(context);
   } catch (err) {
     if (err.code === 4001) {
       console.log('Please connect to Ethereum wallet');
