@@ -1,7 +1,7 @@
 import { Contract, ethers } from 'ethers';
 //import actions from '../ethers/actions'
 
-const ETHRAINBOW = "0x9A3285EDCe19CF60EcBE234d97139ba9B0835337";
+const ETHRAINBOW = "0xd85c10dd67339e5e68bf85312075271ad74f3e79";
 const FACTORY_CONTRACT_ABI = require('./abi.json');
 
 let ethRainbowContract;

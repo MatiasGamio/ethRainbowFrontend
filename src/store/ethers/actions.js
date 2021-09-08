@@ -4,7 +4,7 @@ import {
 
 const PROVIDER_CHECK_MS = 500;
 
-const supportedNetworkIds = ['0x4'];
+const supportedNetworkIds = ['0x1'];
 
 let ethereum;
 let provider;

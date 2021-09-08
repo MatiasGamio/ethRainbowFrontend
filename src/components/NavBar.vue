@@ -1,6 +1,5 @@
 <template>
     <div id="navbar">
-        <span class="address">{{ethers.address}}</span>
         <div class="component button" :style="btnConnectStyle" @click="toggleConnect">{{btnConnectText}}</div>
     </div>  
 </template>

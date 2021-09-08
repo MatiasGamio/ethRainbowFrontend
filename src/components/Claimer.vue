@@ -2,7 +2,7 @@
   <div class="containerBox">
     <div id="claim-container" class="" v-if="connected">
       <div class="title">🌈ethRainbow</div>
-      <div class="label">tokenId:</div>
+      <div class="label">rainbowId:</div>
       <input id="tokenNumber" class="component inputBox" v-model="tokenId" min="1" max="6000"/>
       <button id="btnClaim" class="component button" :style="btnClaimStyle">
         <img src="img/spinner.svg" height="35" v-if="checking"/>
@@ -12,7 +12,7 @@
     </div>
     <div id="claim-container" class="" v-if="!connected">
       <div class="title">🌈ethRainbow</div>
-      <div class="label">Connect to Rinkeby to claim.</div>
+      <div class="label">Connect to Etherum Mainnet to claim.</div>
       <div class="component button" style="background-color:grey;" @click="init()">Connect</div>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
     },
     calcError() {
       if (this.ethRainbow.claimedTokens[parseInt(this.tokenId-1)]) {
-        this.message = "Tokens already claimed";
+        this.message = "Rainbow already claimed";
         this.readyToClaim = false;
       } else {
         this.message = " ";
@@ -79,7 +79,7 @@ export default {
       let input = document.getElementById("tokenNumber");
       input.disabled = true;
       this.checking = true;
-      this.message = "Claiming token...";
+      this.message = "Claiming Rainbow...";
       let success = await this.claim(parseInt(this.tokenId));
 
       if (success) {

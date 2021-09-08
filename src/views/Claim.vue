@@ -21,7 +21,7 @@ export default {
       window.location.href = 'https://twitter.com/ethrainbow';
     },
     goToOpenSea() {
-      window.location.href = 'https://opensea.io/collection/ethrainbow-1';
+      window.location.href = 'https://opensea.io/collection/eth-rainbow';
     }
   }
 }
