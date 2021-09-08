@@ -4,7 +4,7 @@ import {
 
 const PROVIDER_CHECK_MS = 500;
 
-const supportedNetworkIds = ['0x1'];
+const supportedNetworkIds = ['0x4']; //['0x1'];
 
 let ethereum;
 let provider;
@@ -97,6 +97,7 @@ async function handleAccountsChanged(context) {
   }
 
   context.dispatch("ethRainbow/createContract", wallet, {root:true});
+  context.dispatch("nRainbow/createContracts", wallet, {root:true});
 }
 
 async function connect(context) {
@@ -137,6 +138,7 @@ async function login(context) {
 
     context.commit("wallet", wallet);
     context.dispatch("ethRainbow/createContract", wallet, {root:true});
+    context.dispatch("nRainbow/createContracts", wallet, {root:true});
 
     if (chainId !== oldNetwork || address !== oldAddress) {
       context.commit('connected', true);
@@ -186,6 +188,7 @@ const logout = function logout(context) {
   context.commit('connected', false);
   context.commit('provider', null);
   context.dispatch("ethRainbow/createContract", null, {root:true});
+  context.dispatch("nRainbow/createContract", null, {root:true});
 };
 
 export default {

@@ -5,9 +5,9 @@ import mutations from './mutations'
 const state = () => ({
     ready: false,
     claimedTokens: [],
-    myRainbows: [],
-    loadingRainbows: false,
-    rainbowSVGs: {}
+    loadingNs: false,
+    myNs: [],
+    NsSVGs: {}
 });
 
 export default {

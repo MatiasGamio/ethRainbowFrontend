@@ -11,6 +11,7 @@
 
 <script>
 import Claimer from '@/components/Claimer.vue'
+
 export default {
   name: 'Claim',
   components: {
@@ -81,6 +82,7 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     margin-bottom: 20px;
+    background-image: url('/img/own.png');
   }
 
 </style>

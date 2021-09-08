@@ -16,9 +16,8 @@
       <div class="component button" style="background-color:grey;" @click="init()">Connect</div>
     </div>
   </div>
-  <div id="toast">
-    {{toastMessage}}
-  </div>
+  <div id="tst" class="toast">{{toastMessage}}</div>
+  <div id="tstError" class="toast" style="background-color:rgb(241, 78, 78)">{{toastErrorMessage}}</div>
 </template>
 
 <script>
@@ -32,7 +31,8 @@ export default {
       checking: false,
       message: '',
       readyToClaim: false,
-      toastMessage: 'Rainbow #100 minted'
+      toastMessage: 'Rainbow #100 minted',
+      toastErrorMessage: 'Unexpected error'
     }
   },
   watch: {
@@ -83,13 +83,21 @@ export default {
       let success = await this.claim(parseInt(this.tokenId));
 
       if (success) {
-        let toaster = document.getElementById("toast");
+        let toaster = document.getElementById("tst");
         toaster.style.transform = "translateY(-20px)";
         toaster.style.opacity = 1.0;
         this.toastMessage = `Rainbow #${this.tokenId} minted`;
         setTimeout(() => {
           toaster.style.transform = "translateY(0px)";
           toaster.style.opacity = 0.0;
+        }, 3000);
+      } else {
+        let toasterError = document.getElementById("tstError");
+        toasterError.style.transform = "translateY(-20px)";
+        toasterError.style.opacity = 1.0;
+        setTimeout(() => {
+          toasterError.style.transform = "translateY(0px)";
+          toasterError.style.opacity = 0.0;
         }, 3000);
       }
 
@@ -178,7 +186,7 @@ export default {
     font-size: 32px;
   }
 
-  #toast {
+  .toast {
     position: fixed;
     width: min(50%,300px);
     height: 45px;

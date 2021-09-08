@@ -1,13 +1,16 @@
 <template>
     <div id="navbar">
+        <router-link :to="'/'"><span class="link"> {{(currentPath == '/')?"> ":" "}} Claim Rainbows</span></router-link>
+        <router-link :to="'/experiment'"><span class="link" style="top: 40px;">{{(currentPath == '/experiment')?"> ":" "}}nRainbow Experiment</span></router-link>
         <div class="component button" :style="btnConnectStyle" @click="toggleConnect">{{btnConnectText}}</div>
     </div>  
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { useRoute } from 'vue-router'
 
-export default {
+export default {   
   computed: mapState({
     ethers: (state) => state.ethers,
     btnConnectText: (state) => {
@@ -31,7 +34,8 @@ export default {
         } else {
             return "background-color:grey;";
         }
-    }
+    },
+    currentPath: function() { return useRoute().path; }
   }),
   methods: {
     ...mapActions('ethers', ['init','logout',]),
@@ -42,7 +46,7 @@ export default {
             this.init();
         }
     },
-  },
+  }
 };
 </script>
 
@@ -67,5 +71,27 @@ export default {
         color: white;
         text-align: left;
         font-size: 15px;
+    }
+
+    .link {
+        width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        color: white;
+        text-align: left;
+        cursor: pointer;
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        transition: 0.5s;
+    }
+
+    .link:hover {
+        color: rgb(29, 29, 29);
     }
 </style>

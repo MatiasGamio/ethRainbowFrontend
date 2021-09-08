@@ -4,6 +4,7 @@ const store = createStore({
   modules: {
     ethers: require('./ethers').default,
     ethRainbow: require('./ethRainbow').default,
+    nRainbow: require('./nRainbow').default,
   }
 });
 
