@@ -30,6 +30,8 @@ export function ready() {
 }
 
 async function startProviderWatcher(context) {
+
+  console.log("startProviderWatcher()");
   async function updateProvider(context) {
     try {
       ethereum = getEthereum();
@@ -51,6 +53,7 @@ async function startProviderWatcher(context) {
   }
 
   function checkProvider(context) {
+    console.log("checkProvider()");
     if (ethereum && !ethereumOk()) {
       logout(context);
     } else if (!ethereum && ethereumOk()) {
@@ -144,9 +147,12 @@ async function login(context) {
 }
 
 const init =  async function (context) {
+  console.log("login()");
   if (ready()) {
+    console.log(" > ready()");
     await login(context);
   } else  {
+    console.log(" > not ready()");
     await connect(context);
   }
   startProviderWatcher(context);
