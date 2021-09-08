@@ -10,4 +10,4 @@ app.config.globalProperties.globalVar = 'globalVar';
 app.use(store).use(router).mount('#app');
 
 store.dispatch('ethers/init');
-//store.dispatch('ethRainbow/createContract');
+store.dispatch('ethRainbow/createContract');

@@ -1,7 +1,7 @@
 <template>
     <div id="navbar">
         <router-link :to="'/'"><span class="link"> {{(currentPath == '/')?"> ":" "}} Claim Rainbows</span></router-link>
-        <router-link :to="'/experiment'"><span class="link" style="top: 40px;">{{(currentPath == '/experiment')?"> ":" "}}nRainbow Experiment</span></router-link>
+        <router-link :to="'/experiment'"><span class="link" style="top: 40px;">{{(currentPath == '/experiment')?"> ":" "}}Try the n + Rainbow Experiment</span></router-link>
         <div class="component button" :style="btnConnectStyle" @click="toggleConnect">{{btnConnectText}}</div>
     </div>  
 </template>

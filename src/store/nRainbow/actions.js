@@ -14,7 +14,7 @@ let nContract;
 let NsSVGs = {};
 
 const createContracts =  async function (context, wallet) {
-    console.log("createContracts() with wallet:", wallet);
+    //console.log("createContracts() with wallet:", wallet);
 
     if (wallet) {
         nContract = new Contract(N, N_ABI, wallet);
@@ -32,7 +32,7 @@ const createContracts =  async function (context, wallet) {
 
 
 const loadMyNs = async function (context, address) {
-    console.log("loadMyNs() with address:", address);
+    //console.log("loadMyNs() with address:", address);
     if (nContract == null) return null;
 
     let myNs = [];
@@ -52,17 +52,17 @@ const loadMyNs = async function (context, address) {
     for (let r=0; r<myNs.length; r++) {
         context.commit('loadingNs', true);
         let tokenId = myNs[r];
-        console.log(tokenId);
+        //console.log(tokenId);
 
         if (!(tokenId.toString() in NsSVGs)) {
             try {
-                console.log("finding URI...");
+                //console.log("finding URI...");
                 let tokenData = await nContract.tokenURI(parseInt(tokenId));
                 let decodedData = base64.decode(tokenData.split(",")[1]);
                 let JSONData = JSON.parse(decodedData);
                 let imageData = JSONData.image;
                 let decodedImageData = base64.decode(imageData.split(",")[1]);
-                console.log(imageData);
+                //console.log(imageData);
                 NsSVGs[tokenId.toString()] = imageData;
             } catch (err) {}
         }

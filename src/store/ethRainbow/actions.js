@@ -3,18 +3,19 @@ const base64 = require('base-64');
 
 //import actions from '../ethers/actions'
 
-const ETHRAINBOW = "0x9a3285edce19cf60ecbe234d97139ba9b0835337"; //homestead: "0xd85c10dd67339e5e68bf85312075271ad74f3e79";
-const FACTORY_CONTRACT_ABI = require('./abi.json');
+const ETHRAINBOW_RINKEBY = "0x9a3285edce19cf60ecbe234d97139ba9b0835337";
+const ETHRAINBOW_HOMESTEAD = "0xd85c10dd67339e5e68bf85312075271ad74f3e79";
+
+const ETHRAINBOW = ETHRAINBOW_HOMESTEAD;
+const ETHRAINBOW_ABI = require('./abi.json');
 
 let ethRainbowContract;
 
 let claimed = [];
 let rainbowSVGs = {};
 
-
-
 const createContract =  async function (context, wallet) {
-    console.log("createContract() with wallet:", wallet);
+    //console.log("createContract() with wallet:", wallet);
 
     if (claimed.length == 0) {
         for (let i=0; i<6000; i++) {
@@ -23,7 +24,7 @@ const createContract =  async function (context, wallet) {
     }
     //const wallet = actions.getWallet();
     if (wallet) {
-        ethRainbowContract = new Contract(ETHRAINBOW, FACTORY_CONTRACT_ABI, wallet);
+        ethRainbowContract = new Contract(ETHRAINBOW, ETHRAINBOW_ABI, wallet);
         context.commit('ready', true);
         loadMyRainbows(context, await wallet.getAddress());
     } else {
@@ -35,7 +36,7 @@ const createContract =  async function (context, wallet) {
 };
 
 const checkOwned = async function (context, tokenId) {
-    console.log("checkOwned() with tokenId", tokenId);
+    //console.log("checkOwned() with tokenId", tokenId);
     if (ethRainbowContract == null) return null;
     if (claimed[tokenId-1] == true ) { return true; }
 
@@ -47,7 +48,7 @@ const checkOwned = async function (context, tokenId) {
     }
     
     if (owner != null) { 
-        console.log(`Token owned: ${owner}`);
+        //console.log(`Token owned: ${owner}`);
         claimed[tokenId-1] = true; }
     else { claimed[tokenId-1] = false; }
 
@@ -57,7 +58,7 @@ const checkOwned = async function (context, tokenId) {
 }
 
 const claim = async function (context, tokenId) {
-    console.log("claim() with tokenId:", tokenId);
+    //console.log("claim() with tokenId:", tokenId);
     if (ethRainbowContract == null) return null;
     if (claimed[tokenId-1] == true ) { return null; }
 
@@ -80,7 +81,7 @@ const claim = async function (context, tokenId) {
 }
 
 const loadMyRainbows = async function (context, address) {
-    console.log("loadMyRainbows() with address:", address);
+    //console.log("loadMyRainbows() with address:", address);
     if (ethRainbowContract == null) return null;
 
     let myRainbows = [];
@@ -100,11 +101,11 @@ const loadMyRainbows = async function (context, address) {
     for (let r=0; r<myRainbows.length; r++) {
         context.commit('loadingRainbows', true);
         let tokenId = myRainbows[r];
-        console.log(tokenId);
+        //console.log(tokenId);
 
         if (!(tokenId.toString() in rainbowSVGs)) {
             try {
-                console.log("finding URI...");
+                //console.log("finding URI...");
                 let tokenData = await ethRainbowContract.tokenURI(parseInt(tokenId));
                 let decodedData = base64.decode(tokenData.split(",")[1]);
                 let JSONData = JSON.parse(decodedData);

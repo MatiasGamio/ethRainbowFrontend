@@ -4,7 +4,10 @@ import {
 
 const PROVIDER_CHECK_MS = 500;
 
-const supportedNetworkIds = ['0x4']; //['0x1'];
+const HOMESTEAD = '0x1';
+const RINKEBY = '0x4';
+
+const supportedNetworkIds = [HOMESTEAD];
 
 let ethereum;
 let provider;
@@ -33,23 +36,23 @@ export function ready() {
 
 async function startProviderWatcher(context) {
 
-  console.log("startProviderWatcher()");
+  //console.log("startProviderWatcher()");
 
   async function updateProvider(context) {
-    console.log("updateProvider()");
+    //console.log("updateProvider()");
 
       ethereum = getEthereum();
       if (!ethereum) return;
 
       provider = new providers.Web3Provider(ethereum);
       context.commit("provider", provider);
-      console.log("provider", provider);
+      //console.log("provider", provider);
 
       chainId = ethereum.chainId;
-      console.log("chainId", chainId);
+      //console.log("chainId", chainId);
 
       const accounts = await ethereum.request({ method: 'eth_accounts' });
-      console.log("accounts", accounts);
+      //console.log("accounts", accounts);
       handleAccountsChanged(context);
 
       ethereum.on('chainChanged', () => handleChainChanged(context));
@@ -57,9 +60,9 @@ async function startProviderWatcher(context) {
   }
 
   function checkProvider(context) {
-    console.log("checkProvider()");
-    console.log("ethereum", ethereum);
-    console.log("ethereumOk()", ethereumOk());
+    //console.log("checkProvider()");
+    //console.log("ethereum", ethereum);
+    //console.log("ethereumOk()", ethereumOk());
     if (ethereum && !ethereumOk()) {
       logout(context);
     } else if (!ethereum && ethereumOk()) {
@@ -72,23 +75,23 @@ async function startProviderWatcher(context) {
 }
 
 function handleChainChanged(_chainId) {
-  console.log('Ethereum chain changed. Reloading as recommended.');
+  //console.log('Ethereum chain changed. Reloading as recommended.');
   chainId = _chainId;
   window.location.reload();
 }
 
 async function handleAccountsChanged(context) {
-  console.log(`handleAccountsChanged()`);
+  //console.log(`handleAccountsChanged()`);
 
   let accounts = [];
   if (ethereum) {
     accounts = await ethereum.request({ method: 'eth_accounts' });
   }
 
-  console.log(accounts);
+  //console.log(accounts);
 
   if (accounts.length === 0) {
-    console.log('No ethereum accounts available');
+    //console.log('No ethereum accounts available');
     logout(context);
   } else if (accounts[0] !== currentAccount) {
     currentAccount = accounts[0];
@@ -101,7 +104,7 @@ async function handleAccountsChanged(context) {
 }
 
 async function connect(context) {
-  console.log("connect()");
+  //console.log("connect()");
   try {
     await window.ethereum.enable();
     if (!ethereum) { return logout(context); }
@@ -109,7 +112,7 @@ async function connect(context) {
     await handleAccountsChanged(context);
   } catch (err) {
     if (err.code === 4001) {
-      console.log('Please connect to Ethereum wallet');
+      //console.log('Please connect to Ethereum wallet');
       logout(context);
     } else {
       console.error('Error requesting Ethereum connection/accounts', err)
@@ -119,19 +122,19 @@ async function connect(context) {
 }
 
 async function login(context) {
-  console.log("login() with context", context);
+  //console.log("login() with context", context);
   //try {
     const oldAddress = context.state.address;
     const oldNetwork = context.state.network;
     const address = await getWalletAddress();
 
-    console.log("chainId: ", chainId);
-    console.log("oldNetwork: ", oldNetwork);
-    console.log("address: ", address);
-    console.log("oldAddress: ", oldAddress);
+    //console.log("chainId: ", chainId);
+    //console.log("oldNetwork: ", oldNetwork);
+    //console.log("address: ", address);
+    //console.log("oldAddress: ", oldAddress);
 
-    console.log("provider: ", provider);
-    console.log("wallet: ", wallet);
+    //console.log("provider: ", provider);
+    //console.log("wallet: ", wallet);
 
     if (!provider) { disconnect(context); return; };
     if (!wallet) { logout(context); return; };
@@ -156,12 +159,12 @@ async function login(context) {
 }
 
 const init =  async function (context) {
-  console.log("login()");
+  //console.log("login()");
   if (ready()) {
-    console.log(" > ready()");
+    //console.log(" > ready()");
     await login(context);
   } else  {
-    console.log(" > not ready()");
+    //console.log(" > not ready()");
     await connect(context);
   }
   startProviderWatcher(context);
@@ -169,7 +172,7 @@ const init =  async function (context) {
 };
 
 const logout = function logout(context) {
-  console.log("logout()");
+  //console.log("logout()");
 
   const oldAddress = context.state.address;
   context.commit('address', '');
@@ -188,7 +191,7 @@ const logout = function logout(context) {
   context.commit('connected', false);
   context.commit('provider', null);
   context.dispatch("ethRainbow/createContract", null, {root:true});
-  context.dispatch("nRainbow/createContract", null, {root:true});
+  //context.dispatch("nRainbow/createContract", null, {root:true});
 };
 
 export default {

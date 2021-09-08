@@ -36,15 +36,15 @@ export default {
     }
   },
   watch: {
-      tokenId(newId, oldId) {
-        this.checking = false;
-        this.readyToClaim = false;
-        if (isNaN(newId)) { this.tokenId = oldId; return; }
-        if (newId == "") { return; }
-        if (newId < 1) {this.tokenId = oldId; }
-        if (newId > 6000) {this.tokenId = oldId; }
-        this.checkClaimable();
-      }
+    tokenId(newId, oldId) {
+      this.checking = false;
+      this.readyToClaim = false;
+      if (isNaN(newId)) { this.tokenId = oldId; return; }
+      if (newId == "") { return; }
+      if (newId < 1) {this.tokenId = oldId; }
+      if (newId > 6000) {this.tokenId = oldId; }
+      this.checkClaimable();
+    },
   },
   methods: {
     ...mapActions('ethers', ['init','logout',]),
@@ -105,6 +105,9 @@ export default {
       this.checking = false;
       this.message = " ";
       this.checkClaimable();
+    },
+    start() {
+
     }
   },
   computed: {
@@ -126,6 +129,16 @@ export default {
   },
   mounted() {
     this.checkClaimable();
+  },
+  created() {
+    this.$watch(() => this.$route.params,
+      () => {
+        if (this.$route.path == '/') {
+          this.checkClaimable();
+        }
+      },
+      { immediate: true }
+    )
   }
 }
 </script>
