@@ -34,26 +34,28 @@ async function startProviderWatcher(context) {
   console.log("startProviderWatcher()");
 
   async function updateProvider(context) {
-
     console.log("updateProvider()");
 
-    try {
+//    try {
       ethereum = getEthereum();
       if (!ethereum) return;
 
       provider = new providers.Web3Provider(ethereum);
       context.commit("provider", provider);
 
+      console.log("provider", provider);
+
       chainId = ethereum.chainId;
       ethereum.on('chainChanged', handleChainChanged);
+
+      console.log("chainId", chainId);
 
       handleAccountsChanged(context);
       ethereum.on('accountsChanged', () => handleAccountsChanged(context));
 
-    } catch (err) {
-      console.error('Error requesting ethereum accounts', err)
-      ethersEvent.$emit(ETHERS_CHANNEL, MSGS.NO_WALLET)
-    }
+//    } catch (err) {
+
+//    }
   }
 
   function checkProvider(context) {
@@ -82,6 +84,8 @@ async function handleAccountsChanged(context, accounts) {
   console.log(`handleAccountsChanged()`);
 
   if (!accounts) {
+    console.log(`handleAccountsChanged()`);
+
     accounts = await ethereum.request({ method: 'eth_accounts' });
   }
 
