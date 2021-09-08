@@ -11,15 +11,11 @@ let claimed = [];
 const createContract =  async function (context, wallet) {
     console.log("createContract() with wallet:", wallet);
 
-    console.log("tokensOwned: ", claimed.length);
     if (claimed.length == 0) {
         for (let i=0; i<6000; i++) {
             claimed.push(false);
         }
-        console.log("claimedTokens: ", claimed.length)
     }
-
-    context.commit('claimedTokens', claimed);
     //const wallet = actions.getWallet();
     if (wallet) {
         ethRainbowContract = new Contract(ETHRAINBOW, FACTORY_CONTRACT_ABI, wallet);
